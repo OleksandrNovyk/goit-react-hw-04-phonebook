@@ -39,6 +39,7 @@ export const ContactForm = ({ onAddBtnClick }) => {
       <Label>
         Name
         <InputItem
+          autocomplete="off"
           onChange={onInputChange}
           value={name}
           name="name"
@@ -50,6 +51,7 @@ export const ContactForm = ({ onAddBtnClick }) => {
       <Label>
         Number
         <InputItem
+          autocomplete="off"
           onChange={onInputChange}
           value={number}
           type="tel"

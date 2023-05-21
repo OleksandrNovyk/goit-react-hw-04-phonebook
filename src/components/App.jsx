@@ -1,14 +1,45 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { nanoid } from 'nanoid';
 import Notiflix from 'notiflix';
 
-import { Container, MainHeader, SubHeader } from './App.styled';
-import { useLocalStorage } from '../hooks/useLocalStorage';
-import { defaultContacts } from '../utils/defaultContacts';
-import { notifySettings } from '../utils/notifySettings';
+import { Container, FirstHeader, SecondHeader } from './App.styled';
 import { ContactForm } from './ContactForm/ContactForm';
 import { Filter } from './Filter/Filter';
 import { ContactList } from './ContactList/ContactList';
+
+const notifySettings = {
+  width: '380px',
+  position: 'right-top',
+  distance: '10px',
+  opacity: 1,
+  fontSize: '20px',
+  borderRadius: '12px',
+};
+
+const defaultContacts = [
+  { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
+  { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
+  { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
+  { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
+];
+
+const useLocalStorage = (key, defaultValue) => {
+  const dataFromStorage = JSON.parse(window.localStorage.getItem(key));
+
+  const [state, setState] = useState(() => {
+    if (dataFromStorage && dataFromStorage.length === 0) {
+      Notiflix.Notify.info(`No ${key} in your list yet`, notifySettings);
+    }
+    return dataFromStorage ?? defaultValue;
+  });
+
+  useEffect(() => {
+    localStorage.setItem(key, JSON.stringify(state));
+  }, [key, state]);
+
+  return [state, setState];
+};
+
 
 export const App = () => {
   const [contacts, setContacts] = useLocalStorage('contacts', defaultContacts);
@@ -70,10 +101,12 @@ export const App = () => {
 
   return (
     <Container>
-      <MainHeader>Phonebook</MainHeader>
+      <FirstHeader>Phonebook</FirstHeader>
       <ContactForm onAddBtnClick={onAddBtnClick} />
-      <SubHeader>Contacts</SubHeader>
-      <Filter value={filter} onChange={onFilterChange} />
+      <SecondHeader>Contacts</SecondHeader>
+      <Filter 
+      value={filter} 
+      onChange={onFilterChange} />
       <ContactList
         contacts={filterContacts()}
         onDeleteBtnClick={onDeleteBtnClick}
