@@ -12,7 +12,6 @@ export const InputItem = ({
 }) => {
   return (
     <Input
-      autocomplete="off"
       onChange={onChange}
       value={value}
       placeholder={placeholder}
