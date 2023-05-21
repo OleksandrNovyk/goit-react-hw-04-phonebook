@@ -40,7 +40,6 @@ const useLocalStorage = (key, defaultValue) => {
   return [state, setState];
 };
 
-
 export const App = () => {
   const [contacts, setContacts] = useLocalStorage('contacts', defaultContacts);
   const [filter, setFilter] = useState('');
@@ -102,14 +101,15 @@ export const App = () => {
   return (
     <Container>
       <FirstHeader>Phonebook</FirstHeader>
-      <ContactForm onAddBtnClick={onAddBtnClick} />
+      <ContactForm 
+      onAddBtnClick={onAddBtnClick} />
       <SecondHeader>Contacts</SecondHeader>
       <Filter 
       value={filter} 
       onChange={onFilterChange} />
       <ContactList
-        contacts={filterContacts()}
-        onDeleteBtnClick={onDeleteBtnClick}
+      contacts={filterContacts()}
+      onDeleteBtnClick={onDeleteBtnClick}
       />
     </Container>
   );
